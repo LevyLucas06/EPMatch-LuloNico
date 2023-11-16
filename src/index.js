@@ -55,4 +55,37 @@ app.post('/FindUser', async (req, res) => {
     res.json(user);
   });
 
+
+app.post('/AddActivity', async (req, res) => {
+    const { activity } = req.body;
+    const crear = await prisma.intereses.create({
+        data:{
+            "Interes": activity
+        }
+    })
+    res.json(crear)
+})
+
+app.post('/RegisterActivity', async (req, res)=> {
+    const {userId, activity} = req.body;
+    const find = await prisma.intereses.findUnique({
+        where:{
+            "Interes": activity
+        }
+    })
+    if(find != null){
+    const activityId = find.id;
+    const register = await prisma.interesesusuario.create({
+        data:{
+            "IdUsuario": userId,
+            "IdInteres": activityId
+
+        }
+    })
+    res.json(register);
+    }
+    else{
+        res.send("No existe esa actividad");
+    }
+})
 module.exports = app;

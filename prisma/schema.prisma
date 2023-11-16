@@ -9,22 +9,29 @@ datasource db {
 
 model Datospersonales {
   id        Int    @id @default(autoincrement())
-  Mail      String
-  Password  String  
   Edad      Int
   Barrio    String
   Sexo      String
   EdadMin   Int
   EdadMax   Int
   Cumpleaos String
+  Mail      String
+  Password  String
 
   @@map("datospersonales")
 }
 
 model intereses {
-  id         Int    @id @default(autoincrement())
-  id_usuario Int
-  Interes    String
-
+  id      Int    @id @default(autoincrement())
+  Interes String @unique
+ 
   @@map("intereses")
+}
+
+model interesesusuario {
+  id        Int @id @default(autoincrement())
+  IdUsuario Int
+  IdInteres Int
+
+  @@map("interesesusuario")
 }
